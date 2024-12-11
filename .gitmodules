@@ -1,0 +1,3 @@
+[submodule "Assets/MAM-Core"]
+	path = Assets/MAM-Core
+url=git@pq-gitlab.com:ivori_engine/Master_core.git
