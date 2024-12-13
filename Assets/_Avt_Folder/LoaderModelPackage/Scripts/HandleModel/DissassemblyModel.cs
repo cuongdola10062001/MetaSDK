@@ -17,7 +17,7 @@ public class DissassemblyModel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.P) || OVRInput.GetUp(OVRInput.Button.One))
         {
             ResetModelToInit();
         }
@@ -28,7 +28,7 @@ public class DissassemblyModel : MonoBehaviour
         foreach (var grabbale in grabbables)
         {
             grabbale.transform.localPosition = Vector3.zero;
-            grabbale.transform.localScale = Vector3.zero;
+            grabbale.transform.localRotation = Quaternion.Euler(Vector3.zero);
             grabbale.transform.localScale = Vector3.one;
         }
     }
