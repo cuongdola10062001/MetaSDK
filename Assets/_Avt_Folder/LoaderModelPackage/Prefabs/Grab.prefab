@@ -666,8 +666,9 @@ GameObject:
   - component: {fileID: 7085576785395959300}
   - component: {fileID: 7249801463003883790}
   - component: {fileID: 3809773797994438252}
+  - component: {fileID: 4791171503983780180}
   m_Layer: 4
-  m_Name: GrabSolid41
+  m_Name: Grab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -777,6 +778,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4791171503983780180}
+        m_TargetAssemblyTypeName: PartHandlerCtrl, Assembly-CSharp
+        m_MethodName: WhenSelectObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _whenUnselect:
     m_PersistentCalls:
       m_Calls:
@@ -792,12 +805,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4791171503983780180}
+        m_TargetAssemblyTypeName: PartHandlerCtrl, Assembly-CSharp
+        m_MethodName: WhenUnSelectObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _whenMove:
     m_PersistentCalls:
       m_Calls: []
   _whenCancel:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4791171503983780180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559722235897396963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50bef0d608354064498cb48b18c00951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootTrans: {fileID: 5012751750527778176}
+  materialPropertyBlockEditor: {fileID: 5650554587448438976}
 --- !u!1 &5861790867989036583
 GameObject:
   m_ObjectHideFlags: 0

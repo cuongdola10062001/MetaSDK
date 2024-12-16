@@ -32,4 +32,13 @@ public class DissassemblyModel : MonoBehaviour
             grabbale.transform.localScale = Vector3.one;
         }
     }
+
+    public void OnSelectObject()
+    {
+        Debug.LogWarning("Select obj");
+    }
+    public void OnUnSelectObject()
+    {
+        Debug.LogWarning("Un Select obj");
+    }
 }
