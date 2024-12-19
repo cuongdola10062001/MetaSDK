@@ -3,44 +3,53 @@ using UnityEngine;
 
 public class PartHandlerCtrl : MonoBehaviour
 {
-    private PointableUnityEventWrapper _event;
-    private MeshRenderer _meshRenderer;
+
+    [SerializeField] private Transform rootTrans;
+    [SerializeField] private MaterialPropertyBlockEditor materialPropertyBlockEditor;
+    [SerializeField] private PointableUnityEventWrapper _event;
+    [SerializeField] private MeshRenderer _meshRenderer;
     private void Start()
     {
-        _event= GetComponent<PointableUnityEventWrapper>();
-        _meshRenderer = GetComponentInChildren<MeshRenderer>();
-
+        /*_event = GetComponent<PointableUnityEventWrapper>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();*/
         _event.WhenSelect.AddListener(x => WhenSelectObject());
         _event.WhenUnselect.AddListener(x => WhenUnSelectObject());
     }
 
-
-    /*[SerializeField] Transform rootTrans;
-    [SerializeField] MaterialPropertyBlockEditor materialPropertyBlockEditor;
-
-    private GameObject itemGrab;
-
     public void SetData(MeshRenderer meshRenderer)
     {
-        ClearMeshRenderObj();
-        string nameMesh= meshRenderer.gameObject.name;
-        Vector3 posMesh = meshRenderer.transform.localPosition;
-        Quaternion rotMesh = meshRenderer.transform.localRotation;
-        Vector3 scaleMesh = meshRenderer.transform.localScale;
+        //name
+        _meshRenderer.gameObject.name = meshRenderer.gameObject.name;
+        //transform
+        _meshRenderer.transform.localPosition = meshRenderer.transform.localPosition;
+        _meshRenderer.transform.localRotation = meshRenderer.transform.localRotation;
+        _meshRenderer.transform.localScale = meshRenderer.transform.localScale;
+        //mesh renderer
+       
+        //mesh filter
+        var meshFilterOld = _meshRenderer.gameObject.GetComponent<MeshFilter>();
+        var meshFilterNew = meshRenderer.gameObject.GetComponent<MeshFilter>();
+        meshFilterOld.mesh = meshFilterNew.sharedMesh;
+        meshFilterOld.mesh = meshFilterNew.sharedMesh;
+        //mesh collider
+        var meshColliderOld = _meshRenderer.gameObject.GetComponent<MeshCollider>();
+        var meshColliderNew = meshRenderer.gameObject.GetComponent<MeshCollider>();
+        meshColliderOld.sharedMesh = meshColliderNew.sharedMesh;
+        meshColliderOld.convex = meshColliderNew.convex;
+        //marterial
+        Material marter = meshRenderer.material;
+        _meshRenderer.material = marter;
+        foreach (var mar in _meshRenderer.materials)
+        {
+            mar.shader = Shader.Find("Standard");
+           /* mar.SetFloat("_Mode", 0); 
+            mar.ChangeRenderMode(StandardShaderUtils.BlendMode.Opaque);*/
+        }
+       
 
-        GameObject meshObj = Instantiate(meshRenderer.gameObject);
-
-        materialPropertyBlockEditor.Renderers.Add(meshRenderer);
-        meshObj.transform.SetParent(rootTrans);
-        meshObj.name = nameMesh;
-        meshObj.transform.localPosition = posMesh;
-        meshObj.transform.localRotation = rotMesh;
-        meshObj.transform.localScale = scaleMesh;
-
-        itemGrab = meshObj.gameObject;
     }
 
-    private void ClearMeshRenderObj()
+    /*private void ClearMeshRenderObj()
     {
         if (rootTrans.childCount > 0)
         {
@@ -50,11 +59,10 @@ public class PartHandlerCtrl : MonoBehaviour
             }
         }
         materialPropertyBlockEditor.Renderers.Clear();
-    }*/
-
-    public void WhenSelectObject()
+    }
+*/
+    private void WhenSelectObject()
     {
-        Debug.LogWarning("WhenSelectObject");
         Outline outline = _meshRenderer.gameObject.GetComponent<Outline>();
         if (outline == null)
         {
@@ -66,13 +74,12 @@ public class PartHandlerCtrl : MonoBehaviour
         outline.enabled = true;
 
     }
-    public void WhenUnSelectObject()
+    private void WhenUnSelectObject()
     {
         Outline outline = _meshRenderer.gameObject.GetComponent<Outline>();
         if (outline != null)
         {
             outline.enabled = false;
         }
-        Debug.LogWarning("WhenUnSelectObject");
     }
 }
