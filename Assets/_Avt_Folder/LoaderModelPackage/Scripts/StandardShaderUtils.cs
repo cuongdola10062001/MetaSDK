@@ -10,11 +10,6 @@ public static class StandardShaderUtils
         Transparent
     }
 
-    /// <summary>
-    /// Extension for Standard Shader
-    /// </summary>
-    /// <param name="standardShaderMaterial"></param>
-    /// <param name="blendMode"></param>
     public static void ChangeRenderMode(this Material standardShaderMaterial, BlendMode blendMode)
     {
         switch (blendMode)

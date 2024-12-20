@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 1602438189294947795}
   - component: {fileID: 2471533192443748807}
   - component: {fileID: 9005244131595950858}
+  - component: {fileID: 1128164940177267302}
   m_Layer: 0
   m_Name: solid41
   m_TagString: Untagged
@@ -495,6 +496,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7869016408661747247, guid: f19d8b698be992d4c8f9c25d7db2958f, type: 3}
+--- !u!114 &1128164940177267302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4068181494812387407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea95f9f9774b9b848a0c1cf38d6687cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObj: {fileID: 0}
 --- !u!1 &6152290623734498832
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +670,7 @@ MonoBehaviour:
   materialPropertyBlockEditor: {fileID: 2971792645449206122}
   _event: {fileID: 7588745039996522591}
   _meshRenderer: {fileID: 2471533192443748807}
+  _itemAssemble: {fileID: 1128164940177267302}
 --- !u!1 &6812215855866952540
 GameObject:
   m_ObjectHideFlags: 0

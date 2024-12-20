@@ -1,17 +1,23 @@
 using Oculus.Interaction;
 using UnityEngine;
 
-public class PartHandlerCtrl : MonoBehaviour
+public class ItemHandlerCtrl : MonoBehaviour
 {
-
     [SerializeField] private Transform rootTrans;
     [SerializeField] private MaterialPropertyBlockEditor materialPropertyBlockEditor;
     [SerializeField] private PointableUnityEventWrapper _event;
     [SerializeField] private MeshRenderer _meshRenderer;
+    [SerializeField] private ItemAssemble _itemAssemble;
+
+    /*private Vector3 forceDirection = new Vector3(0, 1, 0);
+    private float forceMagnitude = 100f;
+    private Rigidbody rb;*/
+
+    private bool isGrab = false;
+    public bool IsGrab => isGrab;
+
     private void Start()
     {
-        /*_event = GetComponent<PointableUnityEventWrapper>();
-        _meshRenderer = GetComponentInChildren<MeshRenderer>();*/
         _event.WhenSelect.AddListener(x => WhenSelectObject());
         _event.WhenUnselect.AddListener(x => WhenUnSelectObject());
     }
@@ -42,27 +48,17 @@ public class PartHandlerCtrl : MonoBehaviour
         foreach (var mar in _meshRenderer.materials)
         {
             mar.shader = Shader.Find("Standard");
-           /* mar.SetFloat("_Mode", 0); 
-            mar.ChangeRenderMode(StandardShaderUtils.BlendMode.Opaque);*/
         }
-       
+
+        //ItemAssemble itemAssemble= _meshRenderer.gameObject.GetComponent<ItemAssemble>();
+        _itemAssemble.SetTargetObj(meshRenderer.gameObject);
 
     }
 
-    /*private void ClearMeshRenderObj()
-    {
-        if (rootTrans.childCount > 0)
-        {
-            foreach (Transform childRootTrans in rootTrans)
-            {
-                Destroy(childRootTrans.gameObject);
-            }
-        }
-        materialPropertyBlockEditor.Renderers.Clear();
-    }
-*/
     private void WhenSelectObject()
     {
+        isGrab = true;
+
         Outline outline = _meshRenderer.gameObject.GetComponent<Outline>();
         if (outline == null)
         {
@@ -73,13 +69,23 @@ public class PartHandlerCtrl : MonoBehaviour
         outline.OutlineWidth = 10f;
         outline.enabled = true;
 
+
     }
     private void WhenUnSelectObject()
     {
+        isGrab = false;
+
         Outline outline = _meshRenderer.gameObject.GetComponent<Outline>();
         if (outline != null)
         {
             outline.enabled = false;
+        }
+
+        float distance = _itemAssemble.DistanceObjGrabAndItemModel();
+        if (distance < 0.2f)
+        {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

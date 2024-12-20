@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityGLTF;
-using static OVRPlugin;
 
 public class ModelController : MonoBehaviour
 {
@@ -18,6 +17,13 @@ public class ModelController : MonoBehaviour
     {
         gltfComponent = GetComponent<GLTFComponent>();
         gltfComponent.onLoadComplete += AddComponentGrabbale;
+    }
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.P) || OVRInput.GetUp(OVRInput.Button.One))
+        {
+            ResetModelToInit();
+        }
     }
 
     private void AddComponentGrabbale()
@@ -35,32 +41,36 @@ public class ModelController : MonoBehaviour
             partGrabObj.name = "Grab_" + nameItem;
             partGrabObj.transform.localPosition = Vector3.zero;
             partGrabObj.transform.localScale = Vector3.one;
-            var partHandler = partGrabObj.GetComponent<PartHandlerCtrl>();
+            var partHandler = partGrabObj.GetComponent<ItemHandlerCtrl>();
             partHandler.SetData(item);
             item.GetComponent<MeshCollider>().enabled = true;
-            item.GetComponent<MeshCollider>().isTrigger = true;
+            //item.GetComponent<MeshCollider>().isTrigger = true;
 
             foreach (Material mar in item.materials)
             {
                 mar.shader = Shader.Find("Standard");
                 mar.SetInt("_Surface", 1);
-                mar.SetFloat("_Mode", 3); // Opaque mode
+                mar.SetFloat("_Mode", 3);
                 mar.ChangeRenderMode(StandardShaderUtils.BlendMode.Transparent);
 
                 Color color = mar.color;
-                color.a = 0.5f;
+                color.a = 0.2f;
                 mar.color = color;
             }
         }
 
-        var coroutine = WaitAndTransparentMarterialModel(5.0f);
+        var coroutine = WaitAndTransparentMarterialModel(3.0f);
         StartCoroutine(coroutine);
     }
 
     private IEnumerator WaitAndTransparentMarterialModel(float waitTime)
     {
-
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(0.2f);
+        foreach (var meshRender in meshRenderers)
+        {
+            meshRender.GetComponent<MeshCollider>().isTrigger = true;
+        }
+        yield return new WaitForSeconds(waitTime - 0.2f);
         foreach (var grabbable in grabbableList)
         {
             Rigidbody rigidbody = grabbable.gameObject.GetComponent<Rigidbody>();
@@ -68,20 +78,16 @@ public class ModelController : MonoBehaviour
             rigidbody.isKinematic = true;
         }
 
-        /*foreach (var meshRender in meshRenderers)
+    }
+
+    private void ResetModelToInit()
+    {
+        if (grabbableList.Count <= 0) return;
+        foreach (var grabbale in grabbableList)
         {
-            foreach (Material mar in meshRender.materials)
-            {
-                mar.shader = Shader.Find("Standard");
-                mar.SetInt("_Surface", 1);
-                mar.SetFloat("_Mode", 3); // Opaque mode
-                mar.ChangeRenderMode(StandardShaderUtils.BlendMode.Transparent);
-
-                Color color = mar.color;
-                color.a = 0.5f;
-                mar.color = color;
-            }
-
-        }*/
+            grabbale.transform.localPosition = Vector3.zero;
+            grabbale.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            grabbale.transform.localScale = Vector3.one;
+        }
     }
 }
