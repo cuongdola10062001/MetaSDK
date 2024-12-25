@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemAssemble : MonoBehaviour
 {
@@ -10,15 +8,38 @@ public class ItemAssemble : MonoBehaviour
         targetObj = obj;
     }
 
+    [SerializeField] private float distanceGobal;
+
+    [SerializeField] private float angleForward;
+    [SerializeField] private float angleRight;
+    [SerializeField] private float angleUp;
+
+    private float valueAngleDesired = 60f;
+
+
     void Start()
     {
-        
+
     }
 
     void Update()
     {
+        distanceGobal = DistanceObjGrabAndItemModel();
 
-        
+        AngleSatisfiedObjGrabAndItemModel();
+        /*if (targetObj == null) return;
+
+        Renderer renderer1 = gameObject.GetComponent<Renderer>();
+        Renderer renderer2 = targetObj.GetComponent<Renderer>();
+
+        Vector3 positionA = renderer1.transform.position;
+        Vector3 positionB = renderer2.transform.position;
+
+        Vector3 directionA = positionA.normalized; 
+        Vector3 directionB = positionB.normalized;
+
+        angle = Vector3.Angle(directionA, directionB);
+        Debug.Log("Góc giữa Object A và Object B: " + angle + " độ");*/
     }
 
     public float DistanceObjGrabAndItemModel()
@@ -35,9 +56,34 @@ public class ItemAssemble : MonoBehaviour
 
             float distance = Vector3.Distance(center1, center2);
 
-            Debug.LogWarning("distance: " + distance);
             return distance;
         }
         return 999999999999999;
+    }
+
+    public bool AngleSatisfiedObjGrabAndItemModel()
+    {
+        if (targetObj == null) return false;
+
+        Renderer renderer1 = gameObject.GetComponent<Renderer>();
+        Renderer renderer2 = targetObj.GetComponent<Renderer>();
+
+        if (renderer1 != null && renderer2 != null)
+        {
+            /*float angleForward = Vector3.Angle(renderer1.transform.forward, renderer2.transform.forward);
+            float angleRight= Vector3.Angle(renderer1.transform.right, renderer2.transform.right);
+            float angleUp= Vector3.Angle(renderer1.transform.up, renderer2.transform.up);*/
+
+            angleForward = Vector3.Angle(renderer1.transform.forward, renderer2.transform.forward);
+            angleRight = Vector3.Angle(renderer1.transform.right, renderer2.transform.right);
+            angleUp = Vector3.Angle(renderer1.transform.up, renderer2.transform.up);
+
+            if (angleForward <= valueAngleDesired && angleRight <= valueAngleDesired && angleUp <= valueAngleDesired)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

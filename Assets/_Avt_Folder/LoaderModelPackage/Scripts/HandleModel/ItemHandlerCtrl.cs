@@ -31,7 +31,7 @@ public class ItemHandlerCtrl : MonoBehaviour
         _meshRenderer.transform.localRotation = meshRenderer.transform.localRotation;
         _meshRenderer.transform.localScale = meshRenderer.transform.localScale;
         //mesh renderer
-       
+
         //mesh filter
         var meshFilterOld = _meshRenderer.gameObject.GetComponent<MeshFilter>();
         var meshFilterNew = meshRenderer.gameObject.GetComponent<MeshFilter>();
@@ -82,7 +82,8 @@ public class ItemHandlerCtrl : MonoBehaviour
         }
 
         float distance = _itemAssemble.DistanceObjGrabAndItemModel();
-        if (distance < 0.2f)
+        //float angle = _itemAssemble.AngleSatisfiedObjGrabAndItemModel();
+        if (distance < 0.2f && _itemAssemble.AngleSatisfiedObjGrabAndItemModel())
         {
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.Euler(0, 0, 0);
